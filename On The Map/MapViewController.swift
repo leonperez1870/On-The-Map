@@ -2,84 +2,103 @@
 //  MapViewController.swift
 //  On The Map
 //
-//  Created by Leoncio Perez on 5/10/16.
+//  Created by Leoncio Perez on 5/24/16.
 //  Copyright © 2016 Leoncio Perez. All rights reserved.
 //
 
-import UIKit
 import MapKit
+import UIKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    
-    @IBOutlet weak var map: MKMapView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        var pinButton : UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "pin"), landscapeImagePhone: nil, style: UIBarButtonItemStyle.Plain, target: self, action: "addPinAction")
-        var refreshButton : UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "reloadAction")
-        self.navigationItem.rightBarButtonItems = [refreshButton, pinButton]
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Done, target: self, action: "logout")
-    }
+    @IBOutlet weak var mapView: MKMapView!
     
     override func viewWillAppear(animated: Bool) {
-        self.reloadUsersData()
+        super.viewWillAppear(animated)
+        removeAllAnnotations()
+        addAllAnnotations()
     }
     
-    func addPinAction() {
-        var postController:UIViewController = self.storyboard!.instantiateViewControllerWithIdentifier("postView") as! UIViewController
-        //self.presentViewController(postController, animated: true, completion: nil)
-        self.navigationController?.pushViewController(postController, animated: true)
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier("pin") as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pin")
+            pinView!.canShowCallout = true
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+        } else {
+            pinView!.annotation = annotation
+        }
+        return pinView
     }
     
-    func reloadAction() {
-        self.reloadUsersData()
-    }
-    
-    func reloadUsersData() {
-        var student = [StudentInformation]()
-        UdacityClient.sharedInstance().getStudentLocations { users, error in
-            if let usersData =  users {
-                dispatch_async(dispatch_get_main_queue(), {
-                    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    appDelegate.usersData = usersData
-                    UdacityClient.sharedInstance().createAnnotations(usersData, mapView: self.map)
-                })
-            } else {
-                if error != nil {
-                    UdacityClient.sharedInstance().showAlert(error!, viewController: self)
-                }
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.sharedApplication()
+            if let toOpen = view.annotation?.subtitle! {
+                app.openURL(NSURL(string: toOpen)!)
             }
         }
     }
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        if annotation is MKPointAnnotation {
-            let pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "myPin")
-            pinView.pinColor = .Red
-            pinView.canShowCallout = true
+    func removeAllAnnotations() {
+        let annotationsToRemove = mapView.annotations.filter { $0 !== mapView.userLocation }
+        mapView.removeAnnotations(annotationsToRemove)
+    }
+    
+    func addAllAnnotations() {
+        var annotations = [MKPointAnnotation]()
+        for studentInfo in OnTheMapModel.sharedInstance().studentInfos {
+            let annotation = MKPointAnnotation()
             
-            // pin button
-            let pinButton = UIButton.buttonWithType(UIButtonType.InfoLight) as! UIButton
-            pinButton.frame.size.width = 44
-            pinButton.frame.size.height = 44
+            annotation.coordinate = CLLocationCoordinate2D(latitude: studentInfo.latitude, longitude: studentInfo.longitude)
+            annotation.title = studentInfo.fullName()
+            annotation.subtitle = studentInfo.linkUrl
             
-            pinView.rightCalloutAccessoryView = pinButton
-            
-            return pinView
+            annotations.append(annotation)
         }
-        return nil
+        mapView.addAnnotations(annotations)
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
-        // open url
-        UdacityClient.sharedInstance().openURL(view.annotation.subtitle!)
+    func loadMapDataAndDisplay() {
+        OnTheMapModel.sharedInstance().loadStudentInfos { (success, errorString) -> Void in
+            dispatch_async(dispatch_get_main_queue(), {
+                if success {
+                    self.removeAllAnnotations()
+                    self.addAllAnnotations()
+                } else {
+                    let alert = UIAlertController(title: "Error", message: errorString, preferredStyle: UIAlertControllerStyle.Alert)
+                    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            })
+        }
     }
     
-    func logout() {
-        UdacityClient.sharedInstance().logout(self)
+    @IBAction func logoutButtonPushed(sender: AnyObject) {
+        OnTheMapModel.sharedInstance().logout()
+        let loginController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        self.presentViewController(loginController, animated: true, completion: nil)
     }
     
+    func submitNewPin() {
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
+        request.HTTPMethod = "POST"
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = "{\"uniqueKey\": \"1234\", \"firstName\": \"John\", \"lastName\": \"Doe\",\"mapString\": \"Mountain View, CA\", \"mediaURL\": \"https://udacity.com\",\"latitude\": 40.0, \"longitude\": -100.0}".dataUsingEncoding(NSUTF8StringEncoding)
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            guard error == nil else {
+                print("Error returned by request", error)
+                return
+            }
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+        }
+        task.resume()
+    }
+    
+    @IBAction func refreshButtonPushed(sender: AnyObject) {
+        loadMapDataAndDisplay()
+    }
 }
