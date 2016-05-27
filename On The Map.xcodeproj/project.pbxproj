@@ -20,9 +20,6 @@
 		F583EE161CF50797004BA59B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE151CF50797004BA59B /* MapViewController.swift */; };
 		F583EE181CF557F0004BA59B /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE171CF557F0004BA59B /* TableViewController.swift */; };
 		F583EE1B1CF5632F004BA59B /* FacebookClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE1A1CF5632F004BA59B /* FacebookClient.swift */; };
-		F583EE1D1CF5643F004BA59B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F583EE1C1CF5643F004BA59B /* FBSDKCoreKit.framework */; };
-		F583EE1F1CF56451004BA59B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F583EE1E1CF56451004BA59B /* FBSDKLoginKit.framework */; };
-		F583EE211CF56488004BA59B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F583EE201CF56488004BA59B /* Bolts.framework */; };
 		F583EE231CF564A4004BA59B /* FacebookConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE221CF564A4004BA59B /* FacebookConstants.swift */; };
 /* End PBXBuildFile section */
 
@@ -63,9 +60,6 @@
 		F583EE151CF50797004BA59B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F583EE171CF557F0004BA59B /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		F583EE1A1CF5632F004BA59B /* FacebookClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookClient.swift; sourceTree = "<group>"; };
-		F583EE1C1CF5643F004BA59B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.12.0/FBSDKCoreKit.framework"; sourceTree = "<group>"; };
-		F583EE1E1CF56451004BA59B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.12.0/FBSDKLoginKit.framework"; sourceTree = "<group>"; };
-		F583EE201CF56488004BA59B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "../../../Downloads/FacebookSDKs-iOS-4.12.0/Bolts.framework"; sourceTree = "<group>"; };
 		F583EE221CF564A4004BA59B /* FacebookConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,9 +68,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F583EE211CF56488004BA59B /* Bolts.framework in Frameworks */,
-				F583EE1F1CF56451004BA59B /* FBSDKLoginKit.framework in Frameworks */,
-				F583EE1D1CF5643F004BA59B /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,9 +91,6 @@
 		F583EDBD1CE27670004BA59B = {
 			isa = PBXGroup;
 			children = (
-				F583EE201CF56488004BA59B /* Bolts.framework */,
-				F583EE1E1CF56451004BA59B /* FBSDKLoginKit.framework */,
-				F583EE1C1CF5643F004BA59B /* FBSDKCoreKit.framework */,
 				F583EDC81CE27671004BA59B /* On The Map */,
 				F583EDDD1CE27671004BA59B /* On The MapTests */,
 				F583EDE81CE27671004BA59B /* On The MapUITests */,
@@ -533,6 +521,7 @@
 				F583EDF01CE27671004BA59B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F583EDF11CE27671004BA59B /* Build configuration list for PBXNativeTarget "On The MapTests" */ = {
 			isa = XCConfigurationList;
@@ -541,6 +530,7 @@
 				F583EDF31CE27671004BA59B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F583EDF41CE27671004BA59B /* Build configuration list for PBXNativeTarget "On The MapUITests" */ = {
 			isa = XCConfigurationList;
@@ -549,6 +539,7 @@
 				F583EDF61CE27671004BA59B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
