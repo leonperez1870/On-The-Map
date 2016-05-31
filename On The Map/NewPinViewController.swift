@@ -25,6 +25,50 @@ class NewPinViewController: UIViewController {
         submitButton.enabled = false
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        unsubscribeFromKeyboardNotifications()
+    }
+    //Keyboard Actions
+    func keyboardWillShow(notification: NSNotification) {
+        if locationTextField.isFirstResponder() {
+            view.frame.origin.y = -getKeyboardHeight(notification)
+        }
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        view.frame.origin.y = 0
+    }
+    
+    func subscribeToKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewPinViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewPinViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo!
+        let keyboardSize = userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.CGRectValue().height
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == locationTextField {
+            locationTextField.resignFirstResponder()
+        } else if textField == linkTextField {
+            linkTextField.resignFirstResponder()
+            view.frame.origin.y = 0
+        }
+        return true; 
+    }
+    
     @IBAction func findButtonPushed(sender: AnyObject) {
         guard locationTextField.text != "" else {
             let alert = UIAlertController(title: "Error", message: "Enter a location.", preferredStyle: UIAlertControllerStyle.Alert)
@@ -55,7 +99,7 @@ class NewPinViewController: UIViewController {
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.activityIndicator.startAnimating()
+                self.activityIndicator.stopAnimating()
                 self.placemark = MKPlacemark(placemark: placemarks![0])
                 self.mapView.addAnnotation(self.placemark)
                 let region = MKCoordinateRegionMakeWithDistance(self.placemark.coordinate, 100000, 100000)
