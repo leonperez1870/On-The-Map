@@ -94,12 +94,13 @@ class NewPinViewController: UIViewController {
                     let alert = UIAlertController(title: "Error", message: "No Match Found.", preferredStyle: UIAlertControllerStyle.Alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
+                    self.activityIndicator.stopAnimating()
                 })
                 return
             }
             
             dispatch_async(dispatch_get_main_queue(), {
-                self.activityIndicator.stopAnimating()
+                self.activityIndicator.startAnimating()
                 self.placemark = MKPlacemark(placemark: placemarks![0])
                 self.mapView.addAnnotation(self.placemark)
                 let region = MKCoordinateRegionMakeWithDistance(self.placemark.coordinate, 100000, 100000)
@@ -121,7 +122,7 @@ class NewPinViewController: UIViewController {
                 if (success) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 } else {
-                    let alert = UIAlertController(title: "Error", message: errorString!, preferredStyle: UIAlertControllerStyle.Alert)
+                    let alert = UIAlertController(title: "Error", message: "Connection offline. Try Again.", preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
