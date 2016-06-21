@@ -19,8 +19,6 @@
 		F583EE141CF506EB004BA59B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE131CF506EB004BA59B /* LoginViewController.swift */; };
 		F583EE161CF50797004BA59B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE151CF50797004BA59B /* MapViewController.swift */; };
 		F583EE181CF557F0004BA59B /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE171CF557F0004BA59B /* TableViewController.swift */; };
-		F583EE1B1CF5632F004BA59B /* FacebookClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE1A1CF5632F004BA59B /* FacebookClient.swift */; };
-		F583EE231CF564A4004BA59B /* FacebookConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F583EE221CF564A4004BA59B /* FacebookConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +57,6 @@
 		F583EE131CF506EB004BA59B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F583EE151CF50797004BA59B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F583EE171CF557F0004BA59B /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		F583EE1A1CF5632F004BA59B /* FacebookClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookClient.swift; sourceTree = "<group>"; };
-		F583EE221CF564A4004BA59B /* FacebookConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +111,6 @@
 				F583EE0D1CF4F15F004BA59B /* NewPinViewController.swift */,
 				F583EE111CF504E8004BA59B /* StudentInfo.swift */,
 				F583EE0F1CF4FDB8004BA59B /* OnTheMapModel.swift */,
-				F583EE191CF56312004BA59B /* Facebook */,
 				F583EE131CF506EB004BA59B /* LoginViewController.swift */,
 				F583EE171CF557F0004BA59B /* TableViewController.swift */,
 				F583EE151CF50797004BA59B /* MapViewController.swift */,
@@ -143,15 +138,6 @@
 				F583EDEB1CE27671004BA59B /* Info.plist */,
 			);
 			path = "On The MapUITests";
-			sourceTree = "<group>";
-		};
-		F583EE191CF56312004BA59B /* Facebook */ = {
-			isa = PBXGroup;
-			children = (
-				F583EE1A1CF5632F004BA59B /* FacebookClient.swift */,
-				F583EE221CF564A4004BA59B /* FacebookConstants.swift */,
-			);
-			name = Facebook;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,10 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F583EE1B1CF5632F004BA59B /* FacebookClient.swift in Sources */,
 				F583EDCA1CE27671004BA59B /* AppDelegate.swift in Sources */,
 				F583EE181CF557F0004BA59B /* TableViewController.swift in Sources */,
-				F583EE231CF564A4004BA59B /* FacebookConstants.swift in Sources */,
 				F583EE161CF50797004BA59B /* MapViewController.swift in Sources */,
 				F583EE101CF4FDB8004BA59B /* OnTheMapModel.swift in Sources */,
 				F583EE0E1CF4F15F004BA59B /* NewPinViewController.swift in Sources */,
